@@ -5,6 +5,12 @@ int **corpoDeGaloisPorProduto(int primo, int **m)
 {
     int i;
     int j;
+    m = (int **)malloc(primo * sizeof(int *));
+
+    for (i = 0; i < primo; i++)
+    {
+        m[i] = (int *)malloc(primo * sizeof(int));
+    }
 
     for (i = 0; i < primo; i++)
     {
@@ -27,6 +33,12 @@ int **CorpoDeGaloisPorSoma(int primo, int **m)
     int i;
     int j;
 
+    m = (int **)malloc(primo * sizeof(int *));
+    for (i = 0; i < primo; i++)
+    {
+        m[i] = (int *)malloc(primo * sizeof(int));
+    }
+
     for (i = 0; i < primo; i++)
     {
         for (j = 0; j < primo; j++)
@@ -43,28 +55,25 @@ int **CorpoDeGaloisPorSoma(int primo, int **m)
     return m;
 }
 
-int main()
+void imprimeCorpoDeGalois(int primo, int **m)
 {
-    int i;
-    int primo = 7;
-    int **m;
-    m = (int **)malloc(primo * sizeof(int *));
-    for (i = 0; i < primo; i++)
+    for (int i = 0; i < primo; i++)
     {
-        m[i] = (int *)malloc(primo * sizeof(int));
-    }
-    m = CorpoDeGaloisPorSoma(primo, m);
-
-    int j;
-
-    m = corpoDeGaloisPorProduto(primo, m);
-
-    for (i = 0; i < primo; i++)
-    {
-        for (j = 0; j < primo; j++)
+        for (int j = 0; j < primo; j++)
         {
             printf("%5i", m[i][j]);
         }
         printf("\n");
     }
+}
+
+int main()
+{
+    int i;
+    int primo = 7;
+    int **m;
+    int j;
+
+    m = CorpoDeGaloisPorSoma(primo, m);
+    imprimeCorpoDeGalois(primo, m);
 }
