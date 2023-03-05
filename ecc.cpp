@@ -122,7 +122,10 @@ int main()
     printf("\nInsira valores para os pontos Qx2 e Qy2: ");
     scanf("%f %f", &Q.x, &Q.y);
 
-     if (((4 * (pow(A, 3))) + (27 * (pow(B, 2)))) != 0)
+    printf("\nInsira valores para a e b: ");
+    scanf("%f %f", &A, &B);
+
+    if (((4 * (pow(A, 3))) + (27 * (pow(B, 2)))) != 0)
     {
         R = pontoN3(P, Q, A);
         imprimePonto(R);
