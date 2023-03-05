@@ -1,13 +1,12 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
-#include <time.h>
+#include "CorposDeGalois.cpp"
 
 struct pontos
 {
-
-    float x;
-    float y;
+    int x;
+    int y;
 };
 
 /*
@@ -56,20 +55,37 @@ b = y1 - mx1
 }
 */
 
-float coefiecienteM1(float Px, float Py, float Qx, float Qy)
+int coefiecienteM1(int Px, int Py, int Qx, int Qy)
 {
-    float m;
+    int m;
 
     m = (Qy - Py) / Qx - Px;
 
     return m;
 }
 
-float coefiecienteM2(float Px, float Py, float A)
+int coefiecienteM1Ciclico(int Px, int Py, int Qx, int Qy)
 {
-    float m;
+    int m;
 
-    m = (3 * (pow(Px, 2)) + A) / 2 * Py;
+    m = (Qy - Py) / Qx - Px;
+
+    return m;
+}
+
+int coefiecienteM2(int Px, int Py, float A)
+{
+    int m;
+
+    m = (3 * (pow(Px, 2)) + A) / 2 * (pow(Py, 2));
+
+    return m;
+}
+
+int coefiecienteM2Ciclico(int Px, int Py, float A, int p)
+{
+    int m;
+    m = calculaModulo((calculaModulo((calculaModulo(3 * calculaModulo((pow(Px, 2)), p), p) + A), p)) * (calculaModulo((1 / calculaModulo((2 * calculaModulo((pow(Py, 2)), p)), p)), p)), p);
 
     return m;
 }
@@ -108,11 +124,47 @@ pontos pontoN3(pontos P, pontos Q, float A)
     }
 }
 
+pontos pontoCiclico(pontos P, pontos Q, float A, int p)
+{
+    int m;
+    int n;
+    pontos R;
+    if (P.x != Q.x && P.y != Q.y)
+    {
+
+        m = coefiecienteM1Ciclico(P.x, P.y, Q.x, Q.y);
+        n = P.y - m * P.x;
+        R.x = (pow(m, 2)) - P.x - Q.x; // Descobrindo o terceiro ponto em x3
+        R.y = m * R.x + n;             // Descobrindo o terceiro ponto em y3
+        R.y = -1 * R.y;                // Conjugado
+        return R;
+    }
+    else if (P.x == Q.x && P.y == Q.y)
+    {
+
+        m = coefiecienteM2Ciclico(P.x, P.y, A, p);
+        n = P.y - m * P.x;
+
+        R.x = (pow(m, 2)) - P.x - Q.x; // Descobrindo o terceiro ponto em x3
+        R.y = m * R.x + n;             // Descobrindo o terceiro ponto em y3
+        R.y = -1 * R.y;                // Conjugado
+        if (P.x == R.x && P.y == R.y)
+        {
+            return R;
+        }
+        else
+        {
+            return pontoCiclico(P, R, A, p);
+        }
+    }
+}
+
 int main()
 {
 
     pontos P, Q, R;
-    float m, n, A, B;
+    int m, n;
+    float A, B;
 
     // Implementação do caso P diferente de Q
 
