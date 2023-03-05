@@ -71,18 +71,23 @@ void verificaPontosDaCurva(int p, float a, float b)
 {
     int x;
     int y;
-
+    int modulox;
+    int moduloy;
     for (x = 0; x < p; x++)
     {
 
         for (y = 0; y < p; y++)
         {
 
-            printf("\nVerificando o ponto [%i][%i]",x,y);
-            if ((pow(x, 3)) + (a * x) + b == (pow(y, 2)))
+            modulox = ((pow(x, 3)) + (a * x) + b);
+            modulox = modulox % p;
+            moduloy = (pow(y, 2));
+            moduloy = moduloy % p;
+            if (moduloy == modulox)
             {
-                printf("\nO ponto [%i][%i] pertence a curva eliptica", x, y);
+                printf("\n[%i][%i]", x, y);
             }
         }
     }
+    printf("\n\n");
 }
