@@ -80,6 +80,34 @@ void imprimePonto(pontos P)
     printf("\nPonto y = %0.f", P.y);
 }
 
+pontos pontoN3(pontos P, pontos Q, float A)
+{
+    int m;
+    int n;
+    pontos R;
+    if (P.x != Q.x && P.y != Q.y)
+    {
+
+        m = coefiecienteM1(P.x, P.y, Q.x, Q.y);
+        n = P.y - m * P.x;
+        R.x = (pow(m, 2)) - P.x - Q.x; // Descobrindo o terceiro ponto em x3
+        R.y = m * R.x + n;             // Descobrindo o terceiro ponto em y3
+        R.y = -1 * R.y;                // Conjugado
+        return R;
+    }
+    else if (P.x == Q.x && P.y == Q.y)
+    {
+
+        m = coefiecienteM2(P.x, P.y, A);
+        n = P.y - m * P.x;
+
+        R.x = (pow(m, 2)) - P.x - Q.x; // Descobrindo o terceiro ponto em x3
+        R.y = m * R.x + n;             // Descobrindo o terceiro ponto em y3
+        R.y = -1 * R.y;                // Conjugado
+        return R;
+    }
+}
+
 int main()
 {
 
@@ -94,31 +122,9 @@ int main()
     printf("\nInsira valores para os pontos Qx2 e Qy2: ");
     scanf("%f %f", &Q.x, &Q.y);
 
-    // A = (rand()%200)-100; //Gera numeros entre -100 e 100
-
-    // B = rand()%100;
-    if (((4 * (pow(A, 3))) + (27 * (pow(B, 2)))) != 0)
+     if (((4 * (pow(A, 3))) + (27 * (pow(B, 2)))) != 0)
     {
-        if (P.x != Q.x && P.y != Q.y)
-        {
-
-            m = coefiecienteM1(P.x, P.y, Q.x, Q.y);
-            n = P.y - m * P.x;
-            R.x = (pow(m, 2)) - P.x - Q.x; // Descobrindo o terceiro ponto em x3
-            R.y = m * R.x + n;             // Descobrindo o terceiro ponto em y3
-            R.y = -1 * R.y;                // Conjugado
-        }
-        else if (P.x == Q.x && P.y == Q.y)
-        {
-
-            m = coefiecienteM2(P.x, P.y, A);
-            n = P.y - m * P.x;
-
-            R.x = (pow(m, 2)) - P.x - Q.x; // Descobrindo o terceiro ponto em x3
-            R.y = m * R.x + n;             // Descobrindo o terceiro ponto em y3
-            R.y = -1 * R.y;                // Conjugado
-        }
-
+        R = pontoN3(P, Q, A);
         imprimePonto(R);
     }
     else
