@@ -135,7 +135,7 @@ pontos pontoCiclico(pontos P, pontos Q, float A, int p, float B)
     pontos R = Q;
     if (P.x != Q.x && P.y != Q.y)
     {
-        if ((verificaUmPonto(P.x, P.y, p, A, B) == true))
+        if ((verificaUmPonto(Q.x, Q.y, p, A, B) == true))
         {
             m = coefiecienteM1Ciclico(P.x, P.y, Q.x, Q.y);
             n = R.y - m * R.x;
@@ -159,7 +159,7 @@ pontos pontoCiclico(pontos P, pontos Q, float A, int p, float B)
     }
     else if (P.x == Q.x && P.y == Q.y)
     {
-        if ((verificaUmPonto(P.x, P.y, p, A, B) == true))
+        if ((verificaUmPonto(Q.x, Q.y, p, A, B) == true))
         {
             m = coefiecienteM2Ciclico(R.x, R.y, A, p);
             n = R.y - m * R.x;
