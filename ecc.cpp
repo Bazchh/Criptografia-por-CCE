@@ -3,12 +3,11 @@
 #include <math.h>
 #include <time.h>
 
-struct pontos{
-  
-  float x;
-  float y;
+struct pontos
+{
 
-        
+    float x;
+    float y;
 };
 
 /*
@@ -53,83 +52,82 @@ m = 3x1^2+A/2y1
 Para calcular o b neste caso, segue o mesmo metodo:
 
 b = y1 - mx1
-    
+
 }
 */
 
-float coefiecienteM1(pontos P, pontos Q){
-float m;
+float coefiecienteM1(float Px, float Py, float Qx, float Qy)
+{
+    float m;
 
-    m = (Q.y - P.y)/Q.x - P.x;
-    
+    m = (Qy - Py) / Qx - Px;
+
     return m;
 }
 
-float coefiecienteM2(pontos P, pontos Q, float A){
-float m;
+float coefiecienteM2(float Px, float Py, float A)
+{
+    float m;
 
-    m = (3*(pow(P.x,2))+A)/2*P.y;
-    
+    m = (3 * (pow(Px, 2)) + A) / 2 * Py;
+
     return m;
 }
 
-void imprimePonto(pontos P){
+void imprimePonto(pontos P)
+{
     printf("\nPonto x = %0.f", P.x);
     printf("\nPonto y = %0.f", P.y);
 }
 
+int main()
+{
 
+    pontos P, Q, R;
+    float m, n, A, B;
 
-int main(){
-    
-pontos P, Q, R;
-float m, n, A, B;
+    // Implementação do caso P diferente de Q
 
-//Implementação do caso P diferente de Q
+    printf("\nInsira valores para os pontos Px1 e Py1: ");
+    scanf("%f %f", &P.x, &P.y);
 
-printf("\nInsira valores para os pontos Px1 e Py1: ");
-scanf("%f %f", &P.x, &P.y);
+    printf("\nInsira valores para os pontos Qx2 e Qy2: ");
+    scanf("%f %f", &Q.x, &Q.y);
 
-printf("\nInsira valores para os pontos Qx2 e Qy2: ");
-scanf("%f %f", &Q.x, &Q.y);
+    // A = (rand()%200)-100; //Gera numeros entre -100 e 100
 
-//A = (rand()%200)-100; //Gera numeros entre -100 e 100
+    // B = rand()%100;
+    if (((4 * (pow(A, 3))) + (27 * (pow(B, 2)))) != 0)
+    {
+        if (P.x != Q.x && P.y != Q.y)
+        {
 
-A = -3;
-B = 2;
+            m = coefiecienteM1(P.x, P.y, Q.x, Q.y);
+            n = P.y - m * P.x;
+            R.x = (pow(m, 2)) - P.x - Q.x; // Descobrindo o terceiro ponto em x3
+            R.y = m * R.x + n;             // Descobrindo o terceiro ponto em y3
+            R.y = -1 * R.y;                // Conjugado
+        }
+        else if (P.x == Q.x && P.y == Q.y)
+        {
 
-//B = rand()%100;
-if (((4*(pow(A,3)))+(27*(pow(B,2)))) != 0 ){
-if(P.x != Q.x && P.y != Q.y){
-        
-m = coefiecienteM1(P,Q);   
-n = P.y - m*P.x;    
-R.x = (pow(m,2))- P.x - Q.x; //Descobrindo o terceiro ponto em x3
-R.y = m*R.x + n; //Descobrindo o terceiro ponto em y3
-R.y = -1*R.y;//Conjugado
-    } 
-else if (P.x == Q.x && P.y == Q.y ){
+            m = coefiecienteM2(P.x, P.y, A);
+            n = P.y - m * P.x;
 
-m = coefiecienteM2(P, Q, A); 
-n = P.y - m*P.x;
+            R.x = (pow(m, 2)) - P.x - Q.x; // Descobrindo o terceiro ponto em x3
+            R.y = m * R.x + n;             // Descobrindo o terceiro ponto em y3
+            R.y = -1 * R.y;                // Conjugado
+        }
 
-R.x = (pow(m,2))- P.x - Q.x; //Descobrindo o terceiro ponto em x3
-R.y = m*R.x + n; //Descobrindo o terceiro ponto em y3
-R.y = -1*R.y; //Conjugado
-            }   
+        imprimePonto(R);
+    }
+    else
+    {
+        printf("\nA curva eliptica é singular, é necessario que a curva seja não singular");
+    }
 
-imprimePonto(R);
-        
-        } else {
-            printf("\nA curva eliptica é singular, é necessario que a curva seja não singular");
-        }    
-
-
-
-printf("\n\n");
-
+    printf("\n\n");
 }
-
 
 /*
 Alguns dados obtidos:
@@ -139,7 +137,7 @@ logo, igualamos a equação a 0, segue
 
  0 = x^3 + Ax + B - (mx+n)^2
 
- Temos que encontrar agora os zeros da equação, porém, já obtemos 2 desses zeros, o de x1 e x2 e precisamos agora do zero do terceiro ponto x3 e construimos uma equação 
+ Temos que encontrar agora os zeros da equação, porém, já obtemos 2 desses zeros, o de x1 e x2 e precisamos agora do zero do terceiro ponto x3 e construimos uma equação
  com o seguinte formato:
 
 0 = A(x - x1)(x - x2)(x - x3)
