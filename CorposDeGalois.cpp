@@ -67,6 +67,11 @@ void imprimeCorpoDeGalois(int primo, int **m)
     }
 }
 
+int calculaModulo(int n, int p)
+{
+    return (n % p);
+}
+
 void verificaPontosDaCurva(int p, float a, float b)
 {
     int x;
@@ -91,25 +96,24 @@ void verificaPontosDaCurva(int p, float a, float b)
     printf("\n\n");
 }
 
-void verificaUmPonto(int x, int y, int p, float a, float b)
+bool verificaUmPonto(int x, int y, int p, float a, float b)
 {
     int modulox;
     int moduloy;
-
+    bool r;
     modulox = calculaModulo(((pow(x, 3)) + (a * x) + b), p);
     moduloy = calculaModulo((pow(y, 2)), p);
 
-    if (moduloy = modulox)
+    if (moduloy == modulox)
     {
-        printf("\nO ponto <%i><%i> pertence a curva eliptica", x, y);
+
+        r = true;
     }
     else if (moduloy != modulox)
     {
-        printf("\nO ponto não pertence a curva eliptica");
-    }
-}
 
-int calculaModulo(int n, int p)
-{
-    return (n % p);
+        r = false;
+    }
+
+    return r;
 }
