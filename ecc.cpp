@@ -54,7 +54,7 @@ b = y1 - mx1
 
 }
 */
-
+// Calcula o coeficiente M para o primeiro caso dos pontos
 int coefiecienteM1(int Px, int Py, int Qx, int Qy)
 {
     int m;
@@ -72,7 +72,7 @@ int coefiecienteM1Ciclico(int Px, int Py, int Qx, int Qy)
 
     return m;
 }
-
+// Calcula o coeficiente M para o segundo caso dos pontos
 int coefiecienteM2(int Px, int Py, float A)
 {
     int m;
@@ -82,20 +82,22 @@ int coefiecienteM2(int Px, int Py, float A)
     return m;
 }
 
+// Calcula o coeficiente M de forma que não ocorra erro de tipagem para valores muito grandes
 int coefiecienteM2Ciclico(int Px, int Py, float A, int p)
 {
     int m;
+    // A cada operação (soma e multiplicação), realizamos o calculo do modulo da operação
     m = calculaModulo((calculaModulo((calculaModulo(3 * calculaModulo((pow(Px, 2)), p), p) + A), p)) * (calculaModulo((1 / calculaModulo((2 * calculaModulo((pow(Py, 2)), p)), p)), p)), p);
 
     return m;
 }
-
+// Imprime um ponto qualquer
 void imprimePonto(pontos P)
 {
     printf("\nPonto x = %0.f", P.x);
     printf("\nPonto y = %0.f", P.y);
 }
-
+// Função usada para calcular o terceiro um terceiro ponto dado dois pontos da curva eliptica
 pontos pontoN3(pontos P, pontos Q, float A)
 {
     int m;
@@ -124,6 +126,8 @@ pontos pontoN3(pontos P, pontos Q, float A)
     }
 }
 
+// Função que serve para realizar a saida de um determinado ponto pertencente a curva eliptica
+// realizar um curso de soma de pontos ciclico de forma que retornemos ao ponto de partida
 pontos pontoCiclico(pontos P, pontos Q, float A, int p)
 {
     int m;
