@@ -87,15 +87,15 @@ int coefiecienteM2Ciclico(int Px, int Py, float A, int p)
 {
     int m;
     // A cada operação (soma e multiplicação), realizamos o calculo do modulo da operação
-    m = calculaModulo((calculaModulo((calculaModulo(3 * calculaModulo((pow(Px, 2)), p), p) + A), p)) * (calculaModulo((1 / calculaModulo((2 * calculaModulo((pow(Py, 2)), p)), p)), p)), p);
+    m = calculaModulo((3 * (pow(Px, 2)) + A) * (1 / (2 * (pow(Py, 2)))), p); // calculaModulo((calculaModulo((calculaModulo(3 * calculaModulo((pow(Px, 2)), p), p) + A), p)) * (calculaModulo((1 / calculaModulo((2 * calculaModulo((pow(Py, 2)), p)), p)), p)), p);
 
     return m;
 }
 // Imprime um ponto qualquer
 void imprimePonto(pontos P)
 {
-    printf("\nPonto x = %0.f", P.x);
-    printf("\nPonto y = %0.f", P.y);
+    printf("\nPonto x = %i", P.x);
+    printf("\nPonto y = %i", P.y);
 }
 // Função usada para calcular o terceiro um terceiro ponto dado dois pontos da curva eliptica
 pontos pontoN3(pontos P, pontos Q, float A)
@@ -127,38 +127,59 @@ pontos pontoN3(pontos P, pontos Q, float A)
 }
 
 // Função que serve para realizar a saida de um determinado ponto pertencente a curva eliptica
-// realizar um curso de soma de pontos ciclico de forma que retornemos ao ponto de partida
-pontos pontoCiclico(pontos P, pontos Q, float A, int p)
+// realizar um percurso de soma de pontos ciclico de forma que retornemos ao ponto de partida
+pontos pontoCiclico(pontos P, pontos Q, float A, int p, float B)
 {
     int m;
     int n;
-    pontos R;
+    pontos R = Q;
     if (P.x != Q.x && P.y != Q.y)
     {
-
-        m = coefiecienteM1Ciclico(P.x, P.y, Q.x, Q.y);
-        n = P.y - m * P.x;
-        R.x = (pow(m, 2)) - P.x - Q.x; // Descobrindo o terceiro ponto em x3
-        R.y = m * R.x + n;             // Descobrindo o terceiro ponto em y3
-        R.y = -1 * R.y;                // Conjugado
-        return R;
-    }
-    else if (P.x == Q.x && P.y == Q.y)
-    {
-
-        m = coefiecienteM2Ciclico(P.x, P.y, A, p);
-        n = P.y - m * P.x;
-
-        R.x = (pow(m, 2)) - P.x - Q.x; // Descobrindo o terceiro ponto em x3
-        R.y = m * R.x + n;             // Descobrindo o terceiro ponto em y3
-        R.y = -1 * R.y;                // Conjugado
-        if (P.x == R.x && P.y == R.y)
+        if ((verificaUmPonto(P.x, P.y, p, A, B) == true))
         {
-            return R;
+            m = coefiecienteM1Ciclico(P.x, P.y, Q.x, Q.y);
+            n = R.y - m * R.x;
+            R.x = (pow(m, 2)) - R.x - Q.x; // Descobrindo o terceiro ponto em x3
+            R.y = m * R.x + n;             // Descobrindo o terceiro ponto em y3
+            R.y = -1 * R.y;                // Conjugado
+            if (P.x == R.x && P.y == R.y)
+            {
+                return R;
+            }
+            else
+            {
+                return (pontoCiclico(P, R, A, p, B));
+            }
         }
         else
         {
-            return pontoCiclico(P, R, A, p);
+            printf("\nO ponto não pertence a curva eliptica");
+            exit(1);
+        }
+    }
+    else if (P.x == Q.x && P.y == Q.y)
+    {
+        if ((verificaUmPonto(P.x, P.y, p, A, B) == true))
+        {
+            m = coefiecienteM2Ciclico(R.x, R.y, A, p);
+            n = R.y - m * R.x;
+
+            R.x = (pow(m, 2)) - R.x - Q.x; // Descobrindo o terceiro ponto em x3
+            R.y = m * R.x + n;             // Descobrindo o terceiro ponto em y3
+            R.y = -1 * R.y;                // Conjugado
+            if (P.x == R.x && P.y == R.y)
+            {
+                return R;
+            }
+            else
+            {
+                return (pontoCiclico(P, R, A, p, B));
+            }
+        }
+        else
+        {
+            printf("\nO ponto não pertence a curva eliptica");
+            exit(1);
         }
     }
 }
@@ -167,23 +188,25 @@ int main()
 {
 
     pontos P, Q, R;
-    int m, n;
     float A, B;
-
+    int p;
     // Implementação do caso P diferente de Q
 
     printf("\nInsira valores para os pontos Px1 e Py1: ");
-    scanf("%f %f", &P.x, &P.y);
+    scanf("%i %i", &P.x, &P.y);
 
     printf("\nInsira valores para os pontos Qx2 e Qy2: ");
-    scanf("%f %f", &Q.x, &Q.y);
+    scanf("%i %i", &Q.x, &Q.y);
 
     printf("\nInsira valores para a e b: ");
     scanf("%f %f", &A, &B);
 
+    printf("\nInsira a base p para um corpo finito de Galois: ");
+    scanf("%i", &p);
+
     if (((4 * (pow(A, 3))) + (27 * (pow(B, 2)))) != 0)
     {
-        R = pontoN3(P, Q, A);
+        R = pontoCiclico(P, P, A, p, B);
         imprimePonto(R);
     }
     else
