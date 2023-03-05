@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
-
+#include <math.h>
 int **corpoDeGaloisPorProduto(int primo, int **m)
 {
     int i;
@@ -67,13 +67,22 @@ void imprimeCorpoDeGalois(int primo, int **m)
     }
 }
 
-int main()
+void verificaPontosDaCurva(int p, float a, float b)
 {
-    int i;
-    int primo = 7;
-    int **m;
-    int j;
+    int x;
+    int y;
 
-    m = CorpoDeGaloisPorSoma(primo, m);
-    imprimeCorpoDeGalois(primo, m);
+    for (x = 0; x < p; x++)
+    {
+
+        for (y = 0; y < p; y++)
+        {
+
+            printf("\nVerificando o ponto [%i][%i]",x,y);
+            if ((pow(x, 3)) + (a * x) + b == (pow(y, 2)))
+            {
+                printf("\nO ponto [%i][%i] pertence a curva eliptica", x, y);
+            }
+        }
+    }
 }
