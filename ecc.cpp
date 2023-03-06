@@ -55,14 +55,6 @@ b = y1 - mx1
 }
 */
 // Calcula o coeficiente M para o primeiro caso dos pontos
-int coefiecienteM1(int Px, int Py, int Qx, int Qy)
-{
-    int m;
-
-    m = (Qy - Py) / Qx - Px;
-
-    return m;
-}
 
 int coefiecienteM1Ciclico(int Px, int Py, int Qx, int Qy, int p)
 {
@@ -70,15 +62,6 @@ int coefiecienteM1Ciclico(int Px, int Py, int Qx, int Qy, int p)
 
     m = (Qy - Py) / Qx - Px;
     m = caculaModulo(m,p);
-
-    return m;
-}
-// Calcula o coeficiente M para o segundo caso dos pontos
-int coefiecienteM2(int Px, int Py, float A)
-{
-    int m;
-
-    m = (3 * (pow(Px, 2)) + A) / 2 * (pow(Py, 2));
 
     return m;
 }
@@ -98,34 +81,6 @@ void imprimePonto(pontos P)
 {
     printf("\nPonto x = %i", P.x);
     printf("\nPonto y = %i", P.y);
-}
-// Função usada para calcular o terceiro um terceiro ponto dado dois pontos da curva eliptica
-pontos pontoN3(pontos P, pontos Q, float A)
-{
-    int m;
-    int n;
-    pontos R;
-    if (P.x != Q.x && P.y != Q.y)
-    {
-
-        m = coefiecienteM1(P.x, P.y, Q.x, Q.y);
-        n = P.y - m * P.x;
-        R.x = (pow(m, 2)) - P.x - Q.x; // Descobrindo o terceiro ponto em x3
-        R.y = m * R.x + n;             // Descobrindo o terceiro ponto em y3
-        R.y = -1 * R.y;                // Conjugado
-        return R;
-    }
-    else if (P.x == Q.x && P.y == Q.y)
-    {
-
-        m = coefiecienteM2(P.x, P.y, A);
-        n = P.y - m * P.x;
-
-        R.x = (pow(m, 2)) - P.x - Q.x; // Descobrindo o terceiro ponto em x3
-        R.y = m * R.x + n;             // Descobrindo o terceiro ponto em y3
-        R.y = -1 * R.y;                // Conjugado
-        return R;
-    }
 }
 
 // Função que serve para realizar a saida de um determinado ponto pertencente a curva eliptica
