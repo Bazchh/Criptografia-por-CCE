@@ -64,11 +64,12 @@ int coefiecienteM1(int Px, int Py, int Qx, int Qy)
     return m;
 }
 
-int coefiecienteM1Ciclico(int Px, int Py, int Qx, int Qy)
+int coefiecienteM1Ciclico(int Px, int Py, int Qx, int Qy, int p)
 {
     int m;
 
     m = (Qy - Py) / Qx - Px;
+    m = caculaModulo(m,p);
 
     return m;
 }
@@ -87,8 +88,9 @@ int coefiecienteM2Ciclico(int Px, int Py, float A, int p)
 {
     int m;
     // A cada operação (soma e multiplicação), realizamos o calculo do modulo da operação
-    m = calculaModulo((3 * (pow(Px, 2)) + A) * (1 / (2 * (pow(Py, 2)))), p); // calculaModulo((calculaModulo((calculaModulo(3 * calculaModulo((pow(Px, 2)), p), p) + A), p)) * (calculaModulo((1 / calculaModulo((2 * calculaModulo((pow(Py, 2)), p)), p)), p)), p);
-
+    //m = calculaModulo((3 * (pow(Px, 2)) + A) * (1 / (2 * (pow(Py, 2)))), p); // calculaModulo((calculaModulo((calculaModulo(3 * calculaModulo((pow(Px, 2)), p), p) + A), p)) * (calculaModulo((1 / calculaModulo((2 * calculaModulo((pow(Py, 2)), p)), p)), p)), p);
+    m = (3*(pow(Px,2)+A)*(pow(pow(Py,2),-1));
+    m = m % p;     
     return m;
 }
 // Imprime um ponto qualquer
@@ -133,15 +135,17 @@ pontos pontoCiclico(pontos P, pontos Q, float A, int p, float B)
     int m;
     int n;
     pontos R = Q;
-    if (P.x != Q.x && P.y != Q.y)
+    if (P.x != Q.x)
     {
         if ((verificaUmPonto(Q.x, Q.y, p, A, B) == true))
         {
-            m = coefiecienteM1Ciclico(P.x, P.y, Q.x, Q.y);
-            n = R.y - m * R.x;
+            m = coefiecienteM1Ciclico(P.x, P.y, Q.x, Q.y, p);
+            //n = R.y - m * R.x;
             R.x = (pow(m, 2)) - R.x - Q.x; // Descobrindo o terceiro ponto em x3
-            R.y = m * R.x + n;             // Descobrindo o terceiro ponto em y3
-            R.y = -1 * R.y;                // Conjugado
+            R.x = R.x % p;
+            R.y = m * (P.x - R.x) - P.x;             // Descobrindo o terceiro ponto em y3
+            R.y = R.y % p;
+            //R.y = -1 * R.y;                // Conjugado
             if (P.x == R.x && P.y == R.y)
             {
                 return R;
@@ -157,7 +161,7 @@ pontos pontoCiclico(pontos P, pontos Q, float A, int p, float B)
             exit(1);
         }
     }
-    else if (P.x == Q.x && P.y == Q.y)
+    else if (P.x == Q.x && P.y != 0)
     {
         if ((verificaUmPonto(Q.x, Q.y, p, A, B) == true))
         {
@@ -165,8 +169,10 @@ pontos pontoCiclico(pontos P, pontos Q, float A, int p, float B)
             n = R.y - m * R.x;
 
             R.x = (pow(m, 2)) - R.x - Q.x; // Descobrindo o terceiro ponto em x3
-            R.y = m * R.x + n;             // Descobrindo o terceiro ponto em y3
-            R.y = -1 * R.y;                // Conjugado
+            R.x = R.x % p;
+            R.y = m * (P.x - R.x) - P.x;             // Descobrindo o terceiro ponto em y3
+            R.y = R.y % p;
+            //R.y = -1 * R.y;                // Conjugado
             if (P.x == R.x && P.y == R.y)
             {
                 return R;
